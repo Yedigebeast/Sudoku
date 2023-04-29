@@ -42,9 +42,12 @@ struct MainPage: View {
                             Text("Continue Game")
                                 .font(.custom(Constants.bold, size: 17))
                                 .foregroundColor(.white)
-                            if sudokuDataModel.lastGameTime != -1 {
-                                sudokuDataModel.textForContinueLastGameButton
+                            HStack {
+                                Image(systemName: "timer")
+                                Text("\(getTimeFromInt(count: 100)) - Easy")
                             }
+                            .foregroundColor(.white.opacity(0.4))
+                            .font(.custom(Constants.regular, size: 14))
                         }
                     }
                 }
@@ -69,26 +72,31 @@ struct MainPage: View {
                 .confirmationDialog("Select a level", isPresented: $actionSheet, titleVisibility: .hidden) {
                     Button(gameDifficulty.easy.rawValue) {
                         sudokuDataModel.selection = gameDifficulty.easy
+                        sudokuDataModel.addNumbersToArray()
                         isPlayerTablePage = true
                     }
                     
                     Button(gameDifficulty.medium.rawValue) {
                         sudokuDataModel.selection = gameDifficulty.medium
+                        sudokuDataModel.addNumbersToArray()
                         isPlayerTablePage = true
                     }
                     
                     Button(gameDifficulty.hard.rawValue) {
                         sudokuDataModel.selection = gameDifficulty.hard
+                        sudokuDataModel.addNumbersToArray()
                         isPlayerTablePage = true
                     }
                     
                     Button(gameDifficulty.expert.rawValue) {
                         sudokuDataModel.selection = gameDifficulty.expert
+                        sudokuDataModel.addNumbersToArray()
                         isPlayerTablePage = true
                     }
                     
                     Button(gameDifficulty.evil.rawValue) {
                         sudokuDataModel.selection = gameDifficulty.evil
+                        sudokuDataModel.addNumbersToArray()
                         isPlayerTablePage = true
                     }
                 }

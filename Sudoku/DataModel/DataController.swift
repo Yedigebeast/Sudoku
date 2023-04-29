@@ -27,7 +27,7 @@ class DataController: ObservableObject {
         }
     }
         
-    func addItem(isStarted: Bool, isFinished: Bool, isWin: Bool, difficulty: String, date: Date, time: Int, mistakes: Int, numbers: [Int], context: NSManagedObjectContext) {
+    func addItem(isStarted: Bool, isFinished: Bool, isWin: Bool, difficulty: String, date: Date, time: Int, mistakes: Int, context: NSManagedObjectContext) {
         let item = Item(context: context)
         item.isStarted = isStarted
         item.isFinished = isStarted
@@ -36,7 +36,6 @@ class DataController: ObservableObject {
         item.date = date
         item.time = Int16(time)
         item.mistakes = Int16(mistakes)
-        item.numbers = NSSet(array: numbers)
         save(context: context)
     }
     

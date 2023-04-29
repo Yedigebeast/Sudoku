@@ -14,16 +14,22 @@ struct PlayerTablePage: View {
     
     @State var selectedNumber = 0
     
-    let columns = [
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0),
-            GridItem(.flexible(), spacing: 0)
+    private let columns = [
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+            GridItem(.fixed(40), spacing: 0),
+    ]
+    
+    private let columns1 = [
+        GridItem(.fixed(120), spacing: 0),
+        GridItem(.fixed(120), spacing: 0),
+        GridItem(.fixed(120), spacing: 0),
     ]
     
     var body: some View {
@@ -72,19 +78,46 @@ struct PlayerTablePage: View {
             sudokuDataModel.time = 0
             sudokuDataModel.activateTheTimer()
         }
+        .onDisappear{
+            sudokuDataModel.cellColor = Array.init(repeating: Color.white, count: 81)
+            sudokuDataModel.numbers = Array.init(repeating: 0, count: 81)
+        }
         .padding(.horizontal, 5)
     }
     
     var table: some View {
         VStack {
-            LazyVGrid(columns: columns, spacing: 0) {
-                ForEach(sudokuDataModel.numbers, id: \.self) { number in
-                    ZStack {
-                        Rectangle()
-                            .strokeBorder(Color.black, lineWidth: 1)
-                        Text("\(number)")
+            ZStack {
+                LazyVGrid(columns: columns, spacing: 0) {
+                    ForEach((0...80), id: \.self) {id in
+                        Button {
+                            sudokuDataModel.userPressedCell(by: id)
+                        } label: {
+                            ZStack {
+                                Rectangle()
+                                    .fill(sudokuDataModel.cellColor[id])
+                                Rectangle()
+                                    .strokeBorder(Color.gray, lineWidth: 1)
+                                Text(sudokuDataModel.numbers[id] != 0 ? "\(sudokuDataModel.numbers[id])" : "")
+                                    .font(.system(size: 24))
+                                    .foregroundColor(.black)
+                            }
+                            .frame(width: 40, height: 40)
+                        }
                     }
                 }
+                
+                LazyVGrid(columns: columns1, spacing: 0) {
+                    ForEach((1...9), id: \.self) {id in
+                        Rectangle()
+                            .strokeBorder(Color.black, lineWidth: 1.5)
+                            .frame(width: 120, height: 120)
+                    }
+                }
+                
+                Rectangle()
+                    .strokeBorder(Color.black, lineWidth: 3)
+                    .frame(width: 360, height: 360)
             }
             
             Spacer()
@@ -131,7 +164,7 @@ struct PlayerTablePage: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: 8)
                                 .frame(width: 35, height: 35)
-                                .foregroundColor(.black)
+                                .foregroundColor(selectedNumber == number ? .blue : .black)
                             Text("\(number)")
                                 .font(.custom(Constants.regular, size: 30))
                                 .foregroundColor(.white)
