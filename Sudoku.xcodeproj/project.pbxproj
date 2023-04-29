@@ -11,6 +11,18 @@
 		FE90E0CA29FD3583004944C2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0C929FD3583004944C2 /* ContentView.swift */; };
 		FE90E0CC29FD3584004944C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE90E0CB29FD3584004944C2 /* Assets.xcassets */; };
 		FE90E0CF29FD3584004944C2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE90E0CE29FD3584004944C2 /* Preview Assets.xcassets */; };
+		FE90E0D929FD372A004944C2 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE90E0D629FD372A004944C2 /* Montserrat-Bold.ttf */; };
+		FE90E0DA29FD372A004944C2 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE90E0D729FD372A004944C2 /* Montserrat-SemiBold.ttf */; };
+		FE90E0DB29FD372A004944C2 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE90E0D829FD372A004944C2 /* Montserrat-Regular.ttf */; };
+		FE90E0DD29FD376D004944C2 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0DC29FD376D004944C2 /* CustomTabView.swift */; };
+		FE90E0DF29FD378E004944C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0DE29FD378E004944C2 /* Constants.swift */; };
+		FE90E0E429FD392C004944C2 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0E329FD392C004944C2 /* MainPage.swift */; };
+		FE90E0E629FD3936004944C2 /* StatisticsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0E529FD3936004944C2 /* StatisticsPage.swift */; };
+		FE90E0E929FD400C004944C2 /* SudokuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0E829FD400C004944C2 /* SudokuModel.swift */; };
+		FE90E0EB29FD426E004944C2 /* GetTimeFromInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0EA29FD426E004944C2 /* GetTimeFromInt.swift */; };
+		FE90E0EE29FD5948004944C2 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0EC29FD5948004944C2 /* DataModel.xcdatamodeld */; };
+		FE90E0F129FD5985004944C2 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0F029FD5985004944C2 /* DataController.swift */; };
+		FE90E0F329FD6313004944C2 /* PlayerTablePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0F229FD6313004944C2 /* PlayerTablePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +31,19 @@
 		FE90E0C929FD3583004944C2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FE90E0CB29FD3584004944C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE90E0CE29FD3584004944C2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FE90E0D629FD372A004944C2 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		FE90E0D729FD372A004944C2 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		FE90E0D829FD372A004944C2 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		FE90E0DC29FD376D004944C2 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		FE90E0DE29FD378E004944C2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FE90E0E229FD37EE004944C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FE90E0E329FD392C004944C2 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
+		FE90E0E529FD3936004944C2 /* StatisticsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsPage.swift; sourceTree = "<group>"; };
+		FE90E0E829FD400C004944C2 /* SudokuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuModel.swift; sourceTree = "<group>"; };
+		FE90E0EA29FD426E004944C2 /* GetTimeFromInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTimeFromInt.swift; sourceTree = "<group>"; };
+		FE90E0ED29FD5948004944C2 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		FE90E0F029FD5985004944C2 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		FE90E0F229FD6313004944C2 /* PlayerTablePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTablePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +76,11 @@
 		FE90E0C629FD3583004944C2 /* Sudoku */ = {
 			isa = PBXGroup;
 			children = (
-				FE90E0C729FD3583004944C2 /* SudokuApp.swift */,
-				FE90E0C929FD3583004944C2 /* ContentView.swift */,
+				FE90E0E229FD37EE004944C2 /* Info.plist */,
+				FE90E0EF29FD5951004944C2 /* DataModel */,
+				FE90E0E029FD37AB004944C2 /* Helpers */,
+				FE90E0E729FD3FF9004944C2 /* Models */,
+				FE90E0E129FD37D6004944C2 /* Views */,
 				FE90E0CB29FD3584004944C2 /* Assets.xcassets */,
 				FE90E0CD29FD3584004944C2 /* Preview Content */,
 			);
@@ -65,6 +93,56 @@
 				FE90E0CE29FD3584004944C2 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FE90E0D529FD372A004944C2 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FE90E0D629FD372A004944C2 /* Montserrat-Bold.ttf */,
+				FE90E0D729FD372A004944C2 /* Montserrat-SemiBold.ttf */,
+				FE90E0D829FD372A004944C2 /* Montserrat-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		FE90E0E029FD37AB004944C2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FE90E0DE29FD378E004944C2 /* Constants.swift */,
+				FE90E0DC29FD376D004944C2 /* CustomTabView.swift */,
+				FE90E0EA29FD426E004944C2 /* GetTimeFromInt.swift */,
+				FE90E0D529FD372A004944C2 /* Fonts */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		FE90E0E129FD37D6004944C2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FE90E0C729FD3583004944C2 /* SudokuApp.swift */,
+				FE90E0C929FD3583004944C2 /* ContentView.swift */,
+				FE90E0E329FD392C004944C2 /* MainPage.swift */,
+				FE90E0F229FD6313004944C2 /* PlayerTablePage.swift */,
+				FE90E0E529FD3936004944C2 /* StatisticsPage.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		FE90E0E729FD3FF9004944C2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FE90E0E829FD400C004944C2 /* SudokuModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FE90E0EF29FD5951004944C2 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				FE90E0EC29FD5948004944C2 /* DataModel.xcdatamodeld */,
+				FE90E0F029FD5985004944C2 /* DataController.swift */,
+			);
+			path = DataModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,6 +205,9 @@
 			files = (
 				FE90E0CF29FD3584004944C2 /* Preview Assets.xcassets in Resources */,
 				FE90E0CC29FD3584004944C2 /* Assets.xcassets in Resources */,
+				FE90E0DA29FD372A004944C2 /* Montserrat-SemiBold.ttf in Resources */,
+				FE90E0DB29FD372A004944C2 /* Montserrat-Regular.ttf in Resources */,
+				FE90E0D929FD372A004944C2 /* Montserrat-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,8 +218,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE90E0E429FD392C004944C2 /* MainPage.swift in Sources */,
+				FE90E0DD29FD376D004944C2 /* CustomTabView.swift in Sources */,
+				FE90E0E929FD400C004944C2 /* SudokuModel.swift in Sources */,
 				FE90E0CA29FD3583004944C2 /* ContentView.swift in Sources */,
 				FE90E0C829FD3583004944C2 /* SudokuApp.swift in Sources */,
+				FE90E0F129FD5985004944C2 /* DataController.swift in Sources */,
+				FE90E0EB29FD426E004944C2 /* GetTimeFromInt.swift in Sources */,
+				FE90E0EE29FD5948004944C2 /* DataModel.xcdatamodeld in Sources */,
+				FE90E0F329FD6313004944C2 /* PlayerTablePage.swift in Sources */,
+				FE90E0DF29FD378E004944C2 /* Constants.swift in Sources */,
+				FE90E0E629FD3936004944C2 /* StatisticsPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +360,7 @@
 				DEVELOPMENT_TEAM = 3A2U2X4K87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sudoku/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +390,7 @@
 				DEVELOPMENT_TEAM = 3A2U2X4K87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sudoku/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -339,6 +431,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FE90E0EC29FD5948004944C2 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FE90E0ED29FD5948004944C2 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = FE90E0ED29FD5948004944C2 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FE90E0BC29FD3583004944C2 /* Project object */;
 }

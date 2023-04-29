@@ -8,14 +8,34 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTab = 0
+    @State private var isPlayerTablePage = false
+    
+    // CoreData
+    @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .forward)]) var items: FetchedResults<Item>
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        if isPlayerTablePage == false {
+            ZStack {
+                Constants.primaryColor
+                    .edgesIgnoringSafeArea(.all)
+                VStack {
+                    switch selectedTab {
+                    case 0:
+                        MainPage(isPlayerTablePage: $isPlayerTablePage)
+                    default:
+                        StatisticsPage()
+                    }
+                    TabBottomView(selectedIndex: $selectedTab, tabbarItems: [
+                        TabItemData(image: "house", title: "Main", index: 0),
+                        TabItemData(image: "chart.bar.xaxis", title: "Statistics", index: 1),
+                    ])
+                }
+            }
+        } else {
+            PlayerTablePage(isPlayerTablePage: $isPlayerTablePage)
         }
-        .padding()
     }
 }
 
