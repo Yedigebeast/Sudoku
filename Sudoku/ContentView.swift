@@ -11,10 +11,6 @@ struct ContentView: View {
     @State private var selectedTab = 0
     @State private var isPlayerTablePage = false
     
-    // CoreData
-    @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .forward)]) var items: FetchedResults<Item>
-    
     var body: some View {
         if isPlayerTablePage == false {
             ZStack {

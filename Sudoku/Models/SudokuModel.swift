@@ -17,7 +17,7 @@ class SudokuModel: ObservableObject {
     @Published var date = Date()
     @Published var time = 0
     @Published var mistakes = 0
-    @Published var numbers = Array.init(repeating: 0, count: 81)
+    @Published var numbers = (1...81).map { "Item \($0)" }
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var textForContinueLastGameButton: some View {

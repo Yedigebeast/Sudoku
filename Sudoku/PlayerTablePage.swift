@@ -12,6 +12,20 @@ struct PlayerTablePage: View {
     
     @Binding var isPlayerTablePage: Bool
     
+    @State var selectedNumber = 0
+    
+    let columns = [
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0),
+            GridItem(.flexible(), spacing: 0)
+    ]
+    
     var body: some View {
         VStack {
             ZStack {
@@ -29,7 +43,9 @@ struct PlayerTablePage: View {
                     Spacer()
                 }
             }.font(.custom(Constants.bold, size: 22))
+                        
             Spacer()
+                .frame(height: 32)
             
             HStack {
                 Text(sudokuDataModel.selection.rawValue)
@@ -46,9 +62,10 @@ struct PlayerTablePage: View {
                     })
             }
             .font(.custom(Constants.regular, size: 12))
+            .padding(.bottom, 10)
             
-            Spacer()
-                .frame(height: 10)
+            table
+            
         }
         .onAppear{
             sudokuDataModel.stopTheTimer()
@@ -56,6 +73,76 @@ struct PlayerTablePage: View {
             sudokuDataModel.activateTheTimer()
         }
         .padding(.horizontal, 5)
+    }
+    
+    var table: some View {
+        VStack {
+            LazyVGrid(columns: columns, spacing: 0) {
+                ForEach(sudokuDataModel.numbers, id: \.self) { number in
+                    ZStack {
+                        Rectangle()
+                            .strokeBorder(Color.black, lineWidth: 1)
+                        Text("\(number)")
+                    }
+                }
+            }
+            
+            Spacer()
+            
+            HStack {
+                Spacer()
+
+                Button {
+                    print("Undo button was pressed")
+                } label: {
+                    VStack {
+                        Image(systemName: "arrow.uturn.backward.circle")
+                            .font(.system(size: 20))
+                        Text("Undo")
+                            .font(.custom(Constants.regular, size: 20))
+                    }
+                }
+                
+                Spacer()
+                
+                Button {
+                    print("Erase button was pressed")
+                } label: {
+                    VStack {
+                        Image(systemName: "eraser.line.dashed")
+                            .font(.system(size: 20))
+                        Text("Erase")
+                            .font(.custom(Constants.regular, size: 20))
+                    }
+                }
+                
+                Spacer()
+            }
+            .foregroundColor(.black)
+            
+            Spacer()
+            
+            HStack {
+                Spacer()
+                ForEach((1...9), id: \.self) {number in
+                    Button {
+                        selectedNumber = number
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 8)
+                                .frame(width: 35, height: 35)
+                                .foregroundColor(.black)
+                            Text("\(number)")
+                                .font(.custom(Constants.regular, size: 30))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            
+            Spacer()
+        }
     }
 }
 
