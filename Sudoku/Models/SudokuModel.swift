@@ -134,6 +134,10 @@ class SudokuModel: ObservableObject {
     }
     
     func userPressedCell(by index: Int) {
+        if selectedCell != index && robotPut[selectedCell] == false && numbers[selectedCell] != 0 && checkForErrorPuttingNumber(at: selectedCell, number: numbers[selectedCell]) == true {
+                return
+        }
+        
         selectedCell = index
         selectedNumber = 0
         
@@ -166,13 +170,18 @@ class SudokuModel: ObservableObject {
         }
         cellColor[index] = .green
         
+        if robotPut[selectedCell] == false && numbers[selectedCell] != 0 {
+            checkForErrorPuttingNumber(at: selectedCell, number: numbers[selectedCell])
+        }
     }
     
     func userPressedNumber(by number: Int){
+        userPressedCell(by: selectedCell)
         selectedNumber = number
         if robotPut[selectedCell] == true {
             return
         }
+                
         for i in 0..<lastSteps.count {
             if lastSteps[i].index == selectedCell {
                 lastSteps.remove(at: i)
@@ -182,6 +191,39 @@ class SudokuModel: ObservableObject {
         lastSteps.append(element(index: selectedCell, number: selectedNumber))
         numberColor[selectedCell] = .red
         numbers[selectedCell] = selectedNumber
+        
+        userPressedCell(by: selectedCell)
+        mistakes += checkForErrorPuttingNumber(at: selectedCell, number: number) == true ? 1 : 0
+                
+    }
+    
+    private func checkForErrorPuttingNumber(at index: Int, number: Int) -> Bool {
+        var have = false
+        for i in 0...8 {
+            if nineSquares[i].contains(index) == true {
+                for j in 0...8 {
+                    if numbers[nineSquares[i][j]] == number && nineSquares[i][j] != index {
+                        cellColor[nineSquares[i][j]] = .purple
+                        have = true
+                    }
+                }
+            }
+        }
+        for i in ((index / 9) * 9)..<((index / 9 + 1) * 9) {
+            if numbers[i] == number && i != index {
+                cellColor[i] = .purple
+                have = true
+            }
+        }
+        var j = index % 9
+        while (j < 81) {
+            if numbers[j] == number && j != index {
+                cellColor[j] = .purple
+                have = true
+            }
+            j += 9
+        }
+        return have
     }
     
     func undoButtonPressed() {

@@ -11,6 +11,8 @@ struct PlayerTablePage: View {
     @EnvironmentObject var sudokuDataModel: SudokuModel
     
     @Binding var isPlayerTablePage: Bool
+    
+    @State private var isGameEnded = false
         
     private let columns = [
             GridItem(.fixed(40), spacing: 0),
@@ -71,7 +73,18 @@ struct PlayerTablePage: View {
             table
             
         }
+        .onChange(of: sudokuDataModel.mistakes, perform: { newValue in
+            if newValue == 3 {
+                isGameEnded = true
+            }
+        })
+        .alert("Game is Ended", isPresented: $isGameEnded) {
+            Button("You lost Bro 🥲", role: .cancel) {
+                isPlayerTablePage = false
+            }
+        }
         .onAppear{
+            sudokuDataModel.mistakes = 0
             sudokuDataModel.stopTheTimer()
             sudokuDataModel.activateTheTimer()
         }
