@@ -13,6 +13,7 @@ struct PlayerTablePage: View {
     @Binding var isPlayerTablePage: Bool
     
     @State private var isGameEnded = false
+    @State private var showSolution = false
         
     private let columns = [
             GridItem(.fixed(40), spacing: 0),
@@ -72,6 +73,23 @@ struct PlayerTablePage: View {
             
             table
             
+            Button {
+                showSolution = true
+            } label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(.blue)
+                        .frame(height: 60)
+                        .shadow(color: Constants.shadowColor, radius: 5, x: 0, y: 5)
+                    Text("Show Solution")
+                        .font(.custom(Constants.bold, size: 17))
+                        .foregroundColor(.white)
+                }
+            }
+            .padding(.horizontal, 64)
+            
+            Spacer()
+            
         }
         .onChange(of: sudokuDataModel.mistakes, perform: { newValue in
             if newValue == 3 {
@@ -83,17 +101,18 @@ struct PlayerTablePage: View {
                 isPlayerTablePage = false
             }
         }
+        .alert("Are you sure, You want to see solution", isPresented: $showSolution) {
+            Button("I'm sure", role: .destructive) {
+                sudokuDataModel.showSolutionButtonPressed()
+            }
+            Button("Cancel", role: .cancel) {}
+        }
         .onAppear{
-            sudokuDataModel.mistakes = 0
             sudokuDataModel.stopTheTimer()
             sudokuDataModel.activateTheTimer()
         }
         .onDisappear{
-            sudokuDataModel.lastSteps = []
-            sudokuDataModel.numbers = Array.init(repeating: 0, count: 81)
-            sudokuDataModel.robotPut = Array.init(repeating: false, count: 81)
-            sudokuDataModel.cellColor = Array.init(repeating: Color.white, count: 81)
-            sudokuDataModel.numberColor = Array.init(repeating: Color.black, count: 81)
+            sudokuDataModel.reset()
         }
         .padding(.horizontal, 5)
     }

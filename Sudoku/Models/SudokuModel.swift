@@ -18,9 +18,8 @@ class SudokuModel: ObservableObject {
     @Published var selectedCell = 0
     @Published var selectedNumber = 0
     
-    @Published var isStarted = false
-    @Published var isFinished = false
     @Published var isWin = false
+    @Published var selectingNumberBlocked = false
     
     @Published var date = Date()
     @Published var time = 0
@@ -32,6 +31,7 @@ class SudokuModel: ObservableObject {
     @Published var robotPut = Array.init(repeating: false, count: 81)
     @Published var cellColor = Array.init(repeating: Color.white, count: 81)
     @Published var numberColor = Array.init(repeating: Color.black, count: 81)
+    @Published var solution = Array.init(repeating: 0, count: 81)
 
     private let nineSquares = [
         [0, 1, 2,  9, 10, 11, 18, 19, 20],
@@ -47,12 +47,28 @@ class SudokuModel: ObservableObject {
         [60, 61, 62, 69, 70, 71, 78, 79, 80]
     ]
     
+    func reset() {
+        selectedCell = 0
+        selectedNumber = 0
+        time = 0
+        
+        isWin = false
+        mistakes = 0
+        selectingNumberBlocked = false
+        
+        lastSteps = []
+        numbers = Array.init(repeating: 0, count: 81)
+        robotPut = Array.init(repeating: false, count: 81)
+        cellColor = Array.init(repeating: Color.white, count: 81)
+        numberColor = Array.init(repeating: Color.black, count: 81)
+        solution = Array.init(repeating: 0, count: 81)
+    }
+    
     func activateTheTimer() {
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func stopTheTimer() {
-        time = 0
         timer.upstream.connect().cancel()
     }
     
@@ -62,10 +78,149 @@ class SudokuModel: ObservableObject {
         }
         
         if selection == .easy {
-            colorElementsRandomly(quantity: 42)
+            numbers = [
+                0, 0, 2, 0, 0, 8, 5, 6, 7,
+                5, 4, 0, 6, 0, 0, 2, 0, 1,
+                0, 6, 8, 5, 2, 1, 0, 0, 0,
+                0, 0, 0, 0, 1, 2, 8, 0, 6,
+                9, 0, 1, 7, 0, 6, 0, 3, 0,
+                6, 8, 7, 0, 4, 0, 1, 9, 0,
+                0, 5, 0, 8, 7, 3, 9, 0, 4,
+                8, 1, 4, 0, 6, 0, 0, 5, 0,
+                3, 0, 0, 1, 0, 0, 0, 2, 8
+            ]
+            
+            solution = [
+                1, 9, 2, 4, 3, 8, 5, 6, 7,
+                5, 4, 3, 6, 9, 7, 2, 8, 1,
+                7, 6, 8, 5, 2, 1, 3, 4, 9,
+                4, 3, 5, 9, 1, 2, 8, 7, 6,
+                9, 2, 1, 7, 8, 6, 4, 3, 5,
+                6, 8, 7, 3, 4, 5, 1, 9, 2,
+                2, 5, 6, 8, 7, 3, 9, 1, 4,
+                8, 1, 4, 2, 6, 9, 7, 5, 3,
+                3, 7, 9, 1, 5, 4, 6, 2, 8
+            ]
         }
+        
+        if selection == .medium {
+            numbers = [
+                9, 0, 6, 4, 0, 0, 0, 5, 0,
+                0, 5, 4, 3, 0, 6, 2, 0, 0,
+                0, 0, 3, 0, 5, 2, 9, 4, 0,
+                6, 8, 0, 0, 0, 5, 0, 9, 0,
+                0, 0, 5, 0, 0, 0, 6, 0, 0,
+                0, 9, 0, 1, 0, 0, 0, 8, 2,
+                0, 7, 1, 6, 8, 0, 3, 0, 0,
+                0, 0, 9, 2, 0, 3, 7, 1, 0,
+                0, 3, 0, 0, 0, 7, 4, 0, 9
+            ]
+            
+            solution = [
+                9, 2, 6, 4, 7, 1, 8, 5, 3,
+                8, 5, 4, 3, 9, 6, 2, 7, 1,
+                7, 1, 3, 8, 5, 2, 9, 4, 6,
+                6, 8, 2, 7, 3, 5, 1, 9, 4,
+                1, 4, 5, 9, 2, 8, 6, 3, 7,
+                3, 9, 7, 1, 6, 4, 5, 8, 2,
+                4, 7, 1, 6, 8, 9, 3, 2, 5,
+                5, 6, 9, 2, 4, 3, 7, 1, 8,
+                2, 3, 8, 5, 1, 7, 4, 6, 9
+            ]
+        }
+        
+        if selection == .hard {
+            numbers = [
+                5, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 8, 3, 1, 7, 0, 0, 0, 0,
+                4, 0, 7, 0, 5, 0, 2, 0, 0,
+                2, 0, 0, 0, 0, 0, 3, 0, 0,
+                8, 0, 0, 7, 0, 9, 0, 0, 6,
+                0, 0, 1, 0, 0, 0, 0, 0, 9,
+                0, 0, 2, 0, 4, 0, 9, 0, 3,
+                0, 0, 0, 0, 8, 1, 4, 6, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 7
+            ]
+            
+            solution = [
+                5, 2, 6, 4, 9, 8, 7, 3, 1,
+                9, 8, 3, 1, 7, 2, 6, 4, 5,
+                4, 1, 7, 6, 5, 3, 2, 9, 8,
+                2, 7, 9, 8, 6, 5, 3, 1, 4,
+                8, 3, 4, 7, 1, 9, 5, 2, 6,
+                6, 5, 1, 2, 3, 4, 8, 7, 9,
+                1, 6, 2, 5, 4, 7, 9, 8, 3,
+                7, 9, 5, 3, 8, 1, 4, 6, 2,
+                3, 4, 8, 9, 2, 6, 1, 5, 7
+            ]
+        }
+        
+        if selection == .expert {
+            numbers = [
+                1, 0, 0, 0, 8, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 3, 1, 9, 0,
+                0, 0, 9, 0, 0, 2, 0, 8, 0,
+                0, 4, 0, 7, 5, 0, 3, 6, 1,
+                0, 0, 1, 0, 2, 0, 5, 0, 0,
+                7, 6, 5, 0, 1, 4, 0, 2, 0,
+                0, 5, 0, 2, 0, 0, 4, 0, 0,
+                0, 2, 7, 8, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 6, 0, 0, 0, 8
+            ]
+            
+            solution = [
+                1, 3, 2, 9, 8, 6, 7, 4, 5,
+                6, 8, 4, 5, 7, 3, 1, 9, 2,
+                5, 7, 9, 1, 4, 2, 6, 8, 3,
+                2, 4, 8, 7, 5, 9, 3, 6, 1,
+                3, 9, 1, 6, 2, 8, 5, 7, 4,
+                7, 6, 5, 3, 1, 4, 8, 2, 9,
+                8, 5, 6, 2, 9, 1, 4, 3, 7,
+                4, 2, 7, 8, 3, 5, 9, 1, 6,
+                9, 1, 3, 4, 6, 7, 2, 5, 8
+            ]
+        }
+        
+        if selection == .evil {
+            numbers = [
+                0, 5, 0, 0, 3, 8, 0, 0, 2,
+                0, 0, 0, 0, 0, 0, 0, 0, 8,
+                0, 0, 0, 1, 0, 5, 0, 3, 0,
+                0, 0, 0, 0, 4, 6, 0, 0, 0,
+                1, 0, 0, 7, 2, 0, 0, 0, 0,
+                7, 0, 0, 0, 1, 0, 5, 9, 0,
+                5, 0, 1, 0, 0, 0, 6, 0, 0,
+                0, 0, 3, 0, 0, 0, 0, 0, 1,
+                6, 0, 7, 0, 0, 0, 0, 0, 0
+            ]
+            
+            solution = [
+                9, 5, 6, 4, 3, 8, 1, 7, 2,
+                3, 1, 4, 2, 6, 7, 9, 5, 8,
+                2, 7, 8, 1, 9, 5, 4, 3, 6,
+                8, 3, 9, 5, 4, 6, 2, 1, 7,
+                1, 4, 5, 7, 2, 9, 8, 6, 3,
+                7, 6, 2, 8, 1, 3, 5, 9, 4,
+                5, 8, 1, 3, 7, 4, 6, 2, 9,
+                4, 9, 3, 6, 5, 2, 7, 8, 1,
+                6, 2, 7, 9, 8, 1, 3, 4, 5
+            ]
+        }
+        
+        for i in 0...80 {
+            if numbers[i] == 0 {
+                robotPut[i] = false
+            } else {
+                robotPut[i] = true
+            }
+        }
+        
     }
     
+    
+    /*
+    I tried to randomly choose numbers for board, and thought that if I randomly choose some elements, there will be at least one solution
+    However, when I played I understand it is wrong, but I did not want to delete this code 😅
     private func colorElementsRandomly(quantity: Int) {
         var count = 0
         while count < quantity {
@@ -106,6 +261,7 @@ class SudokuModel: ObservableObject {
             }
         }
     }
+    */
     
     private func checkIfHave(number: Int, index: Int) -> Bool {
         var have = false
@@ -171,11 +327,14 @@ class SudokuModel: ObservableObject {
         cellColor[index] = .green
         
         if robotPut[selectedCell] == false && numbers[selectedCell] != 0 {
-            checkForErrorPuttingNumber(at: selectedCell, number: numbers[selectedCell])
+            let _ = checkForErrorPuttingNumber(at: selectedCell, number: numbers[selectedCell])
         }
     }
     
     func userPressedNumber(by number: Int){
+        if selectingNumberBlocked == true {
+            return
+        }
         userPressedCell(by: selectedCell)
         selectedNumber = number
         if robotPut[selectedCell] == true {
@@ -227,6 +386,9 @@ class SudokuModel: ObservableObject {
     }
     
     func undoButtonPressed() {
+        if selectingNumberBlocked == true {
+            return
+        }
         if let lastElement = lastSteps.last {
             numbers[lastElement.index] = 0
             numberColor[lastElement.index] = .black
@@ -236,6 +398,9 @@ class SudokuModel: ObservableObject {
     }
     
     func eraseButtonPressed() {
+        if selectingNumberBlocked == true {
+            return
+        }
         if numbers[selectedCell] != 0 && numberColor[selectedCell] != .black {
             for i in 0..<lastSteps.count {
                 if lastSteps[i].index == selectedCell {
@@ -247,6 +412,18 @@ class SudokuModel: ObservableObject {
             numberColor[selectedCell] = .black
             userPressedCell(by: selectedCell)
         }
+    }
+    
+    func showSolutionButtonPressed() {
+        for i in 0...80 {
+            if robotPut[i] == false && numbers[i] != solution[i] {
+                numbers[i] = solution[i]
+                numberColor[i] = .brown
+            }
+        }
+        userPressedCell(by: selectedCell)
+        selectingNumberBlocked = true
+        stopTheTimer()
     }
     
 }

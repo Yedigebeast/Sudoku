@@ -21,6 +21,13 @@ struct MainPage: View {
             VStack {
                 Spacer()
                 
+                Image("icon")
+                    .resizable()
+                    .frame(width: 200, height: 200)
+                
+                Spacer()
+                    .frame(height: 20)
+                
                 Text("Sudoku")
                     .font(.custom(Constants.bold, size: 30))
                     .foregroundColor(.black.opacity(0.8))
