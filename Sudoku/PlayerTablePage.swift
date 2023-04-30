@@ -11,9 +11,7 @@ struct PlayerTablePage: View {
     @EnvironmentObject var sudokuDataModel: SudokuModel
     
     @Binding var isPlayerTablePage: Bool
-    
-    @State var selectedNumber = 0
-    
+        
     private let columns = [
             GridItem(.fixed(40), spacing: 0),
             GridItem(.fixed(40), spacing: 0),
@@ -75,12 +73,14 @@ struct PlayerTablePage: View {
         }
         .onAppear{
             sudokuDataModel.stopTheTimer()
-            sudokuDataModel.time = 0
             sudokuDataModel.activateTheTimer()
         }
         .onDisappear{
-            sudokuDataModel.cellColor = Array.init(repeating: Color.white, count: 81)
+            sudokuDataModel.lastSteps = []
             sudokuDataModel.numbers = Array.init(repeating: 0, count: 81)
+            sudokuDataModel.robotPut = Array.init(repeating: false, count: 81)
+            sudokuDataModel.cellColor = Array.init(repeating: Color.white, count: 81)
+            sudokuDataModel.numberColor = Array.init(repeating: Color.black, count: 81)
         }
         .padding(.horizontal, 5)
     }
@@ -100,7 +100,7 @@ struct PlayerTablePage: View {
                                     .strokeBorder(Color.gray, lineWidth: 1)
                                 Text(sudokuDataModel.numbers[id] != 0 ? "\(sudokuDataModel.numbers[id])" : "")
                                     .font(.system(size: 24))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(sudokuDataModel.numberColor[id])
                             }
                             .frame(width: 40, height: 40)
                         }
@@ -126,7 +126,7 @@ struct PlayerTablePage: View {
                 Spacer()
 
                 Button {
-                    print("Undo button was pressed")
+                    sudokuDataModel.undoButtonPressed()
                 } label: {
                     VStack {
                         Image(systemName: "arrow.uturn.backward.circle")
@@ -139,7 +139,7 @@ struct PlayerTablePage: View {
                 Spacer()
                 
                 Button {
-                    print("Erase button was pressed")
+                    sudokuDataModel.eraseButtonPressed()
                 } label: {
                     VStack {
                         Image(systemName: "eraser.line.dashed")
@@ -159,12 +159,12 @@ struct PlayerTablePage: View {
                 Spacer()
                 ForEach((1...9), id: \.self) {number in
                     Button {
-                        selectedNumber = number
+                        sudokuDataModel.userPressedNumber(by: number)
                     } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 8)
                                 .frame(width: 35, height: 35)
-                                .foregroundColor(selectedNumber == number ? .blue : .black)
+                                .foregroundColor(sudokuDataModel.selectedNumber == number ? .blue : .black)
                             Text("\(number)")
                                 .font(.custom(Constants.regular, size: 30))
                                 .foregroundColor(.white)
@@ -173,7 +173,6 @@ struct PlayerTablePage: View {
                     Spacer()
                 }
             }
-            
             Spacer()
         }
     }

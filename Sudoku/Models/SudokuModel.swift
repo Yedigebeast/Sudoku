@@ -7,22 +7,31 @@
 
 import SwiftUI
 
-fileprivate struct element {
+struct element {
     var index: Int
     var number: Int
 }
 
 class SudokuModel: ObservableObject {
+    
     @Published var selection = gameDifficulty.none
+    @Published var selectedCell = 0
+    @Published var selectedNumber = 0
+    
     @Published var isStarted = false
     @Published var isFinished = false
     @Published var isWin = false
+    
     @Published var date = Date()
     @Published var time = 0
     @Published var mistakes = 0
-    @Published var numbers = Array.init(repeating: 0, count: 81)
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    @Published var lastSteps: [element] = []
+    @Published var numbers = Array.init(repeating: 0, count: 81)
+    @Published var robotPut = Array.init(repeating: false, count: 81)
     @Published var cellColor = Array.init(repeating: Color.white, count: 81)
+    @Published var numberColor = Array.init(repeating: Color.black, count: 81)
 
     private let nineSquares = [
         [0, 1, 2,  9, 10, 11, 18, 19, 20],
@@ -42,11 +51,8 @@ class SudokuModel: ObservableObject {
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
-    func pauseTheTimer() {
-        timer.upstream.connect().cancel()
-    }
-    
     func stopTheTimer() {
+        time = 0
         timer.upstream.connect().cancel()
     }
     
@@ -88,6 +94,7 @@ class SudokuModel: ObservableObject {
                     if a.count >= 1 {
                         let rnd = Int.random(in: 0...(a.count - 1))
                         numbers[a[rnd].index] = a[rnd].number
+                        robotPut[a[rnd].index] = true
                         couldPut = true
                         count += 1
                         break
@@ -127,12 +134,11 @@ class SudokuModel: ObservableObject {
     }
     
     func userPressedCell(by index: Int) {
+        selectedCell = index
+        selectedNumber = 0
+        
         for i in 0..<cellColor.count {
             cellColor[i] = .white
-        }
-        
-        if numbers[index] == 0 {
-            return
         }
         
         for i in 0...8 {
@@ -151,13 +157,54 @@ class SudokuModel: ObservableObject {
             j += 9
         }
         
-        for i in 0...80 {
-            if numbers[i] == numbers[index] {
-                cellColor[i] = .blue
+        if numbers[index] != 0 {
+            for i in 0...80 {
+                if numbers[i] == numbers[index] {
+                    cellColor[i] = .blue
+                }
             }
         }
         cellColor[index] = .green
         
+    }
+    
+    func userPressedNumber(by number: Int){
+        selectedNumber = number
+        if robotPut[selectedCell] == true {
+            return
+        }
+        for i in 0..<lastSteps.count {
+            if lastSteps[i].index == selectedCell {
+                lastSteps.remove(at: i)
+                break
+            }
+        }
+        lastSteps.append(element(index: selectedCell, number: selectedNumber))
+        numberColor[selectedCell] = .red
+        numbers[selectedCell] = selectedNumber
+    }
+    
+    func undoButtonPressed() {
+        if let lastElement = lastSteps.last {
+            numbers[lastElement.index] = 0
+            numberColor[lastElement.index] = .black
+            lastSteps.remove(at: lastSteps.count - 1)
+            userPressedCell(by: lastElement.index)
+        }
+    }
+    
+    func eraseButtonPressed() {
+        if numbers[selectedCell] != 0 && numberColor[selectedCell] != .black {
+            for i in 0..<lastSteps.count {
+                if lastSteps[i].index == selectedCell {
+                    lastSteps.remove(at: i)
+                    break
+                }
+            }
+            numbers[selectedCell] = 0
+            numberColor[selectedCell] = .black
+            userPressedCell(by: selectedCell)
+        }
     }
     
 }
