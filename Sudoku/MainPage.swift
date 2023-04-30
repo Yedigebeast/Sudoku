@@ -36,41 +36,16 @@ struct MainPage: View {
                 Spacer()
                 
                 Button {
-                    print("Continue Game button pressed")
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 30)
-                            .frame(height: 60)
-                            .shadow(color: Constants.shadowColor, radius: 5, x: 0, y: 5)
-                        VStack {
-                            Text("Continue Game")
-                                .font(.custom(Constants.bold, size: 17))
-                                .foregroundColor(.white)
-                            HStack {
-                                Image(systemName: "timer")
-                                Text("\(getTimeFromInt(count: 100)) - Easy")
-                            }
-                            .foregroundColor(.white.opacity(0.4))
-                            .font(.custom(Constants.regular, size: 14))
-                        }
-                    }
-                }
-                .padding(.horizontal, 64)
-                
-                Spacer()
-                    .frame(height: 10)
-                
-                Button {
                     actionSheet = true
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
-                            .fill(.white)
+                            .fill(.blue)
                             .frame(height: 60)
                             .shadow(color: Constants.shadowColor, radius: 5, x: 0, y: 5)
                         Text("New Game")
                             .font(.custom(Constants.bold, size: 17))
-                            .foregroundColor(.blue)
+                            .foregroundColor(.white)
                     }
                 }
                 .confirmationDialog("Select a level", isPresented: $actionSheet, titleVisibility: .hidden) {

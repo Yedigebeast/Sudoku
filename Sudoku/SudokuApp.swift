@@ -10,14 +10,14 @@ import SwiftUI
 @main
 struct SudokuApp: App {
     @StateObject private var sudokuModel = SudokuModel()
-    @StateObject private var statistics = Statistics()
+    @StateObject private var statisticsModel = StatisticsModel()
     @StateObject private var dataController = DataController()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(sudokuModel)
-                .environmentObject(statistics)
+                .environmentObject(statisticsModel)
                 .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }

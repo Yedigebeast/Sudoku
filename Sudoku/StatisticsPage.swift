@@ -11,7 +11,7 @@ struct StatisticsPage: View {
     private var tabs = ["Easy", "Medium", "Hard", "Expert", "Evil"]
     @State private var selectedTab = "Easy"
     
-    @EnvironmentObject var statistics: Statistics
+    @EnvironmentObject var statisticsModel: StatisticsModel
     
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var items: FetchedResults<Item>
@@ -42,34 +42,34 @@ struct StatisticsPage: View {
     }
     
     private func calculateStatistics() {
-        statistics.reset()
+        statisticsModel.reset()
         for i in items {
             if i.difficulty == selectedTab {
-                statistics.games += 1
+                statisticsModel.games += 1
                 if i.isWin == true {
-                    statistics.wins += 1
-                    statistics.winsWithNoMistakes += (i.mistakes == 0 ? 1 : 0)
+                    statisticsModel.wins += 1
+                    statisticsModel.winsWithNoMistakes += (i.mistakes == 0 ? 1 : 0)
                     
-                    if statistics.bestTime == 0 {
-                        statistics.bestTime = Int(i.time)
+                    if statisticsModel.bestTime == 0 {
+                        statisticsModel.bestTime = Int(i.time)
                     }
-                    statistics.bestTime = min(statistics.bestTime, Int(i.time))
-                    statistics.averageTime += Int(i.time)
+                    statisticsModel.bestTime = min(statisticsModel.bestTime, Int(i.time))
+                    statisticsModel.averageTime += Int(i.time)
                 }
             }
         }
-        var x: Double = Double(statistics.wins)
-        if (statistics.games != 0) {
-            x = x / Double(statistics.games)
+        var x: Double = Double(statisticsModel.wins)
+        if (statisticsModel.games != 0) {
+            x = x / Double(statisticsModel.games)
             x *= 100
         }
-        statistics.winRate = Double(round(10 * x) / 10)
+        statisticsModel.winRate = Double(round(10 * x) / 10)
         
-        x = Double(statistics.averageTime)
-        if statistics.wins != 0 {
-            x = x / Double(statistics.wins)
+        x = Double(statisticsModel.averageTime)
+        if statisticsModel.wins != 0 {
+            x = x / Double(statisticsModel.wins)
         }
-        statistics.averageTime = Int(round(x))
+        statisticsModel.averageTime = Int(round(x))
         
         x = 0
         for i in items {
@@ -81,7 +81,7 @@ struct StatisticsPage: View {
             }
         }
         
-        statistics.currentWinStreak = Int(x)
+        statisticsModel.currentWinStreak = Int(x)
         
         var ans = 0
         x = 0
@@ -96,7 +96,7 @@ struct StatisticsPage: View {
                 }
             }
         }
-        statistics.bestWinStreak = max(ans, Int(x))
+        statisticsModel.bestWinStreak = max(ans, Int(x))
     }
     
     var statisticsView: some View {
@@ -105,10 +105,10 @@ struct StatisticsPage: View {
                 Text("Games")
                     .font(.custom(Constants.semibold, size: 25))
                     .padding(.bottom, 10)
-                customRectangleText(text1: "Games Played", text2: "\(statistics.games)")
-                customRectangleText(text1: "Games Won", text2: "\(statistics.wins)")
-                customRectangleText(text1: "Win Rate", text2: "\(statistics.winRate)%")
-                customRectangleText(text1: "Wins with No Mistakes", text2: "\(statistics.winsWithNoMistakes)")
+                customRectangleText(text1: "Games Played", text2: "\(statisticsModel.games)")
+                customRectangleText(text1: "Games Won", text2: "\(statisticsModel.wins)")
+                customRectangleText(text1: "Win Rate", text2: "\(statisticsModel.winRate)%")
+                customRectangleText(text1: "Wins with No Mistakes", text2: "\(statisticsModel.winsWithNoMistakes)")
                 
                 Spacer()
                     .frame(height: 20)
@@ -116,8 +116,8 @@ struct StatisticsPage: View {
                 Text("Time")
                     .font(.custom(Constants.semibold, size: 25))
                     .padding(.bottom, 10)
-                customRectangleText(text1: "Best Time", text2: getTimeFromInt(count: statistics.bestTime))
-                customRectangleText(text1: "Average Time", text2: getTimeFromInt(count: statistics.averageTime))
+                customRectangleText(text1: "Best Time", text2: getTimeFromInt(count: statisticsModel.bestTime))
+                customRectangleText(text1: "Average Time", text2: getTimeFromInt(count: statisticsModel.averageTime))
                 
             }
             
@@ -129,8 +129,8 @@ struct StatisticsPage: View {
                 Text("Streaks")
                     .font(.custom(Constants.semibold, size: 25))
                     .padding(.bottom, 10)
-                customRectangleText(text1: "Current Win Streak", text2: "\(statistics.currentWinStreak)")
-                customRectangleText(text1: "Best Win Streak", text2: "\(statistics.bestWinStreak)")
+                customRectangleText(text1: "Current Win Streak", text2: "\(statisticsModel.currentWinStreak)")
+                customRectangleText(text1: "Best Win Streak", text2: "\(statisticsModel.bestWinStreak)")
                 
             }
             

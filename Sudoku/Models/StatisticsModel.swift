@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class Statistics: ObservableObject {
+class StatisticsModel: ObservableObject {
     
     @Published var games = 0
     @Published var wins = 0
