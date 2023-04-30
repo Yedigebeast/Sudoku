@@ -23,6 +23,7 @@
 		FE90E0EE29FD5948004944C2 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0EC29FD5948004944C2 /* DataModel.xcdatamodeld */; };
 		FE90E0F129FD5985004944C2 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0F029FD5985004944C2 /* DataController.swift */; };
 		FE90E0F329FD6313004944C2 /* PlayerTablePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE90E0F229FD6313004944C2 /* PlayerTablePage.swift */; };
+		FEAF578D29FE96DC00E06D92 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAF578C29FE96DC00E06D92 /* Statistics.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		FE90E0ED29FD5948004944C2 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		FE90E0F029FD5985004944C2 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		FE90E0F229FD6313004944C2 /* PlayerTablePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTablePage.swift; sourceTree = "<group>"; };
+		FEAF578C29FE96DC00E06D92 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				FE90E0E829FD400C004944C2 /* SudokuModel.swift */,
+				FEAF578C29FE96DC00E06D92 /* Statistics.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				FE90E0EE29FD5948004944C2 /* DataModel.xcdatamodeld in Sources */,
 				FE90E0F329FD6313004944C2 /* PlayerTablePage.swift in Sources */,
 				FE90E0DF29FD378E004944C2 /* Constants.swift in Sources */,
+				FEAF578D29FE96DC00E06D92 /* Statistics.swift in Sources */,
 				FE90E0E629FD3936004944C2 /* StatisticsPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

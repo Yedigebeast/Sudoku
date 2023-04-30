@@ -13,9 +13,6 @@ struct MainPage: View {
     
     @Binding var isPlayerTablePage: Bool
     
-    @Environment(\.managedObjectContext) var managedObjContext
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .forward)]) var items: FetchedResults<Item>
-    
     var body: some View {
         ZStack {
             VStack {

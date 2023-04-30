@@ -9,11 +9,14 @@ import SwiftUI
 
 struct PlayerTablePage: View {
     @EnvironmentObject var sudokuDataModel: SudokuModel
+    @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .forward)]) var items: FetchedResults<Item>
     
     @Binding var isPlayerTablePage: Bool
     
-    @State private var isGameEnded = false
+    @State private var isLosted = false
     @State private var showSolution = false
+    @State private var isWin = false
         
     private let columns = [
             GridItem(.fixed(40), spacing: 0),
@@ -93,11 +96,23 @@ struct PlayerTablePage: View {
         }
         .onChange(of: sudokuDataModel.mistakes, perform: { newValue in
             if newValue == 3 {
-                isGameEnded = true
+                isLosted = true
             }
         })
-        .alert("Game is Ended", isPresented: $isGameEnded) {
+        .onChange(of: sudokuDataModel.numbers, perform: { newValue in
+            if newValue.contains(0) == false {
+                isWin = sudokuDataModel.checkForWinning()
+            }
+        })
+        .alert("Game is Ended", isPresented: $isLosted) {
             Button("You lost Bro 🥲", role: .cancel) {
+                sudokuDataModel.addItem(isWin: isWin, context: managedObjContext)
+                isPlayerTablePage = false
+            }
+        }
+        .alert("Game is Ended", isPresented: $isWin) {
+            Button("You Winned Bro 🎉", role: .cancel) {
+                sudokuDataModel.addItem(isWin: isWin, context: managedObjContext)
                 isPlayerTablePage = false
             }
         }

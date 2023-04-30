@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct element {
     var index: Int
@@ -18,10 +19,8 @@ class SudokuModel: ObservableObject {
     @Published var selectedCell = 0
     @Published var selectedNumber = 0
     
-    @Published var isWin = false
     @Published var selectingNumberBlocked = false
     
-    @Published var date = Date()
     @Published var time = 0
     @Published var mistakes = 0
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -52,7 +51,6 @@ class SudokuModel: ObservableObject {
         selectedNumber = 0
         time = 0
         
-        isWin = false
         mistakes = 0
         selectingNumberBlocked = false
         
@@ -79,15 +77,24 @@ class SudokuModel: ObservableObject {
         
         if selection == .easy {
             numbers = [
-                0, 0, 2, 0, 0, 8, 5, 6, 7,
-                5, 4, 0, 6, 0, 0, 2, 0, 1,
-                0, 6, 8, 5, 2, 1, 0, 0, 0,
-                0, 0, 0, 0, 1, 2, 8, 0, 6,
-                9, 0, 1, 7, 0, 6, 0, 3, 0,
-                6, 8, 7, 0, 4, 0, 1, 9, 0,
-                0, 5, 0, 8, 7, 3, 9, 0, 4,
-                8, 1, 4, 0, 6, 0, 0, 5, 0,
-                3, 0, 0, 1, 0, 0, 0, 2, 8
+                0, 9, 2, 4, 3, 8, 5, 6, 7,
+                5, 4, 3, 6, 9, 7, 2, 8, 1,
+                7, 6, 8, 5, 2, 1, 3, 4, 9,
+                4, 3, 5, 9, 1, 2, 8, 7, 6,
+                9, 2, 1, 7, 8, 6, 4, 3, 5,
+                6, 8, 7, 3, 4, 5, 1, 9, 2,
+                2, 5, 6, 8, 7, 3, 9, 1, 4,
+                8, 1, 4, 2, 6, 9, 7, 5, 3,
+                3, 7, 9, 1, 5, 4, 6, 2, 8
+//                0, 0, 2, 0, 0, 8, 5, 6, 7,
+//                5, 4, 0, 6, 0, 0, 2, 0, 1,
+//                0, 6, 8, 5, 2, 1, 0, 0, 0,
+//                0, 0, 0, 0, 1, 2, 8, 0, 6,
+//                9, 0, 1, 7, 0, 6, 0, 3, 0,
+//                6, 8, 7, 0, 4, 0, 1, 9, 0,
+//                0, 5, 0, 8, 7, 3, 9, 0, 4,
+//                8, 1, 4, 0, 6, 0, 0, 5, 0,
+//                3, 0, 0, 1, 0, 0, 0, 2, 8
             ]
             
             solution = [
@@ -424,6 +431,45 @@ class SudokuModel: ObservableObject {
         userPressedCell(by: selectedCell)
         selectingNumberBlocked = true
         stopTheTimer()
+    }
+    
+    func checkForWinning() -> Bool {
+        for index in 0...80 {
+            for i in 0...8 {
+                if nineSquares[i].contains(index) == true {
+                    for j in 0...8 {
+                        if numbers[nineSquares[i][j]] == numbers[index] && nineSquares[i][j] != index {
+                            return false
+                        }
+                    }
+                }
+            }
+            for i in ((index / 9) * 9)..<((index / 9 + 1) * 9) {
+                if numbers[i] == numbers[index] && i != index {
+                    return false
+                }
+            }
+            var j = index % 9
+            while (j < 81) {
+                if numbers[j] == numbers[index] && j != index {
+                    return false
+                }
+                j += 9
+            }
+        }
+        return true
+    }
+    
+    func addItem(isWin: Bool, context: NSManagedObjectContext) {
+        stopTheTimer()
+        
+        let item = Item(context: context)
+        item.isWin = isWin
+        item.difficulty = selection.rawValue
+        item.date = Date()
+        item.time = Int16(time)
+        item.mistakes = Int16(mistakes)
+        try? context.save()
     }
     
 }
